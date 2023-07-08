@@ -85,12 +85,12 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build :latest
-        run: docker build -t ${GITHUB_REPOSITORY}:${GITHUB_SHA} .
+        run: docker build -t outerspace1920/search_backend:${GITHUB_SHA} .
 
       - name: Push to docker hub :latest
         uses: actions-hub/docker@master
         with:
-          args: push ${GITHUB_REPOSITORY}:${GITHUB_SHA}
+          args: push outerspace1920/search_backend:${GITHUB_SHA}
 
 
       - name: Google Auth
