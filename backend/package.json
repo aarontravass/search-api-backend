@@ -20,11 +20,18 @@
     "is-html": "^3.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@types/cookie-parser": "^1.4.3",
     "@types/csurf": "^1.11.2",
     "@types/express": "^4.17.17",
     "@types/is-html": "^2.0.0",
     "@types/validator": "^13.7.17",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "prettier": "^3.0.0",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
   }
