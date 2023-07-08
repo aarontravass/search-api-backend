@@ -25,7 +25,13 @@ const csrfProtection = csurf({ cookie: true })
 const app = express()
 app.use(cookieParser())
 app.use(csrfProtection)
-app.get('/search', async (req, res) => {
+
+app.get('/token', (req, res) => {
+  const cookie = req.csrfToken()
+  res.cookie('XSRF-TOKEN', cookie)
+  return res.sendStatus(201)
+})
+app.get('/search', csrfProtection, async (req, res) => {
   const response = new ResponseModel()
   const error = new ErrorModel()
   response.success = false
@@ -70,12 +76,12 @@ app.get('/search', async (req, res) => {
     auth: process.env.API_KEY,
     q: req.query.query?.toString(),
     cx: process.env.SEARCH_ENGINE_ID,
-    start: parseInt(req.query.start.toString())
+    start: req.query.start ? parseInt(req.query.start.toString()) : undefined
   })
   response.statusCode = 200
   response.success = true
   response.data = result.data
-  return res.status(response.statusCode).send(response)
+  return res.status(response.statusCode).json(response)
 })
 
 // Apply the rate limiting middleware to all requests
