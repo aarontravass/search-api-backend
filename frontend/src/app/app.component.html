@@ -1,0 +1,32 @@
+<div class="center">
+  <form class="center" style="text-align: center;">
+    <mat-form-field class="center">
+      <input
+        matInput
+        placeholder="Search...."
+        [(ngModel)]="search_query"
+        name="query"
+        #query="ngModel"
+        style="width: 100%;"
+      />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" style="margin-left: 1%;" type="submit">Search</button>
+  </form>
+  <table class="center">
+    <tbody>
+      <tr *ngFor="let item of result['items']">
+        <td>
+          <mat-card>
+            <mat-card-header
+              ><a href="{{ item.link }}" target="_blank">{{
+                item.title
+              }}</a></mat-card-header
+            >
+            <mat-card-content>{{ item.snippet }}</mat-card-content>
+          </mat-card>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
