@@ -23,15 +23,15 @@ const search = customsearch('v1')
 const csrfProtection = csurf({ cookie: true })
 
 const app = express()
-app.use(
-  cors({
-    origin: ['localhost:4200', 'https://backend-sttjypqnpa-uc.a.run.app'],
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-    credentials: true,
-    optionsSuccessStatus: 200
-  })
-)
+const CORS_CONFIG = cors({
+  origin: ['localhost:4200', 'https://backend-sttjypqnpa-uc.a.run.app'],
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+})
+app.use(CORS_CONFIG)
+app.options('*', CORS_CONFIG)
 app.use(cookieParser())
 app.use(csrfProtection)
 
