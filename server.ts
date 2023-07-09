@@ -24,7 +24,7 @@ const csrfProtection = csurf({ cookie: true })
 
 const app = express()
 const CORS_CONFIG = cors({
-  origin: ['localhost:4200', 'https://backend-sttjypqnpa-uc.a.run.app'],
+  origin: ['localhost:4200', 'https://search-frontend-sttjypqnpa-uc.a.run.app'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
   credentials: true,
