@@ -77,6 +77,9 @@ jobs:
         
       - name: check formatting
         run: npm run format
+
+      - name: test
+        run: npm run coverage
         
       - name: Login to docker hub
         uses: actions-hub/docker/login@master
@@ -84,7 +87,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build :latest
+      - name: Build 
         run: docker build -t outerspace1920/search_backend:${GITHUB_SHA} .
 
       - name: Push to docker hub :latest

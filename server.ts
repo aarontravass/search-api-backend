@@ -102,3 +102,5 @@ app.use(
 app.listen(parseInt(process.env.PORT || '3000'), () => {
   console.log('started listening')
 })
+
+export { app }
