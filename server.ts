@@ -25,7 +25,7 @@ const search = customsearch('v1')
 const app = express()
 app.use(compression())
 const CORS_CONFIG = cors({
-  origin: ['localhost:4200', 'https://search-frontend-sttjypqnpa-uc.a.run.app'],
+  origin: ['http://localhost:4200', 'https://search-frontend-sttjypqnpa-uc.a.run.app'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'X-XSRF-Token', 'Content-Type', 'Accept', 'Authorization'],
   credentials: true,
