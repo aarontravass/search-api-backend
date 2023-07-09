@@ -5,7 +5,7 @@ import isHtml from 'is-html'
 import rateLimit from 'express-rate-limit'
 import cookieParser from 'cookie-parser'
 import csurf from 'csurf'
-
+import cors from 'cors'
 class ErrorModel {
   code: string
   message: string
@@ -23,6 +23,11 @@ const search = customsearch('v1')
 const csrfProtection = csurf({ cookie: true })
 
 const app = express()
+app.use(
+  cors({
+    origin: ['localhost:4200', 'https://backend-sttjypqnpa-uc.a.run.app']
+  })
+)
 app.use(cookieParser())
 app.use(csrfProtection)
 
