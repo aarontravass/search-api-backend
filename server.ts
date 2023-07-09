@@ -7,10 +7,14 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
+
+// This is the default response error class
 class ErrorModel {
   code: string
   message: string
 }
+
+// this is the default response class
 class ResponseModel {
   success: boolean
   statusCode: number
@@ -18,12 +22,16 @@ class ResponseModel {
   message: string
   data: any
 }
-
+// set up dotenv config to read from .env files
 config()
+// set google's custom search to use v1
 const search = customsearch('v1')
 
+// initialize the express app
 const app = express()
+// use compression middleware to compress the response
 app.use(compression())
+// set up cross origin config since the host for frontend and backend are different
 const CORS_CONFIG = cors({
   origin: ['localhost:4200', 'https://search-frontend-sttjypqnpa-uc.a.run.app'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -32,16 +40,18 @@ const CORS_CONFIG = cors({
   optionsSuccessStatus: 200
 })
 app.use(cookieParser())
-
+// use the defined cors config
 app.use(CORS_CONFIG)
 app.options('*', CORS_CONFIG)
-
+// use helmet.js to set up content security policy
 app.use(helmet())
-
+// the search api
 app.post('/search', async (req, res) => {
+  // define the response and error models
   const response = new ResponseModel()
   const error = new ErrorModel()
   response.success = false
+  // check the query
   if (!req.query.query) {
     response.statusCode = 400
     error.code = 'REQ_101'
@@ -49,6 +59,7 @@ app.post('/search', async (req, res) => {
     response.error = error
     return res.status(response.statusCode).json(response)
   }
+  // check if query has html to prevent xss attacks
   if (typeof req.query.query !== 'string' || isHtml(req.query.query)) {
     response.statusCode = 400
     error.code = 'REQ_102'
@@ -79,6 +90,7 @@ app.post('/search', async (req, res) => {
       return res.status(response.statusCode).json(response)
     }
   }
+  // query the search api
   const result = await search.cse.list({
     auth: process.env.API_KEY,
     q: req.query.query?.toString(),
@@ -88,6 +100,7 @@ app.post('/search', async (req, res) => {
   response.statusCode = 200
   response.success = true
   response.data = result.data
+  // return the resulsts
   return res.status(response.statusCode).json(response)
 })
 
@@ -95,10 +108,10 @@ app.post('/search', async (req, res) => {
 app.use(
   rateLimit({
     windowMs: 30 * 60 * 1000, // 15 minutes
-    max: 100 // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    max: 100 // Limit each IP to 100 requests per `window`
   })
 )
-
+// listen on `PORT` or default to 3000
 app.listen(parseInt(process.env.PORT || '3000'), () => {
   console.log('started listening')
 })
