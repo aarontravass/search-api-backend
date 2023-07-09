@@ -10,6 +10,7 @@
     "format:fix": "prettier --write \"./**/*.{ts,js,mjs,cjs,md}\"",
     "build": "esbuild server.ts --platform=node --packages=external --bundle --outdir=dist --target=node18 --format=esm",
     "test": "vitest",
+    "serve": "tsx server.ts",
     "coverage": "vitest run --coverage"
   },
   "keywords": [],
