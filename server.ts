@@ -4,8 +4,9 @@ import { config } from 'dotenv'
 import isHtml from 'is-html'
 import rateLimit from 'express-rate-limit'
 import cookieParser from 'cookie-parser'
-import csurf from 'csurf'
 import cors from 'cors'
+import helmet from 'helmet'
+import compression from 'compression'
 class ErrorModel {
   code: string
   message: string
@@ -20,27 +21,24 @@ class ResponseModel {
 
 config()
 const search = customsearch('v1')
-const csrfProtection = csurf({ cookie: true })
 
 const app = express()
+app.use(compression())
 const CORS_CONFIG = cors({
   origin: ['localhost:4200', 'https://search-frontend-sttjypqnpa-uc.a.run.app'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'X-XSRF-Token', 'Content-Type', 'Accept', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200
 })
+app.use(cookieParser())
+
 app.use(CORS_CONFIG)
 app.options('*', CORS_CONFIG)
-app.use(cookieParser())
-app.use(csrfProtection)
 
-app.get('/token', (req, res) => {
-  const cookie = req.csrfToken()
-  res.cookie('XSRF-TOKEN', cookie)
-  return res.sendStatus(201)
-})
-app.get('/search', csrfProtection, async (req, res) => {
+app.use(helmet())
+
+app.post('/search', async (req, res) => {
   const response = new ResponseModel()
   const error = new ErrorModel()
   response.success = false

@@ -5,17 +5,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
     "format": "prettier --check \"./**/*.{ts,js,mjs,cjs,md}\"",
     "format:fix": "prettier --write \"./**/*.{ts,js,mjs,cjs,md}\"",
-    "build": "esbuild server.ts --platform=node --packages=external --bundle --outdir=dist --target=node18 --format=esm"
+    "build": "esbuild server.ts --platform=node --packages=external --bundle --outdir=dist --target=node18 --format=esm",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@googleapis/customsearch": "^1.0.0",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
@@ -42,6 +44,7 @@
     "husky": "^8.0.3",
     "prettier": "^3.0.0",
     "tsx": "^3.12.7",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.33.0"
   }
 }
